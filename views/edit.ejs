@@ -1,9 +1,3 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 
 <!DOCTYPE HTML>
 <html>
@@ -57,18 +51,107 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 			<div class="main-page">
 				<div class="forms">
                     <h2 class="title1">Edit Users Info</h2>
-                    
+					
+				
 					<div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
 						<div class="form-body" style="color: blue;">
 							<form class="form" action="/update/<%=records._id %>" method="POST"> <div class="form-group"> 
-                                <div class="form-group"> <label for="InputText">User Name</label> <input type="text" name="username" value="<%- records.username -%>" class="form-control" id="InputText" placeholder="username"> </div> 
+								<img class="img-fluid img-thumbnail" style="height: 200px; width: 200px; border-radius: 100px;" src="<%- records.profileimage -%>" >
+								<div class="form-group"> <label for="InputText">User Name</label> <input type="text" name="username" value="<%- records.username -%>" class="form-control" id="InputText" placeholder="username"> </div> 
                                 <div class="form-group"> <label for="InputText">Phone</label> <input type="text" name="phone" value="<%- records.phone -%>" class="form-control" id="InputText" placeholder="phone"> </div> 
                                 <div class="form-group"> <label for="InputText">Skills</label> <input type="text" name="skills" value="<%- records.skills -%>" class="form-control" id="InputText" placeholder="skills"> </div> 
                                 <div class="form-group"> <label for="InputDate">Joining Date</label> <input type="date" name="joiningdate" value="<%- records.joiningdate -%>" class="form-control" id="InputDate" placeholder="resignation date"> </div> 
 								<div class="form-group"> <label for="InputDate">Resignation Date</label> <input type="date" name="resignationDate" value="<%- records.resignationDate -%>" class="form-control" id="InputDate" placeholder="resignation date"> </div> 
 								<div class="form-group"> <label for="InputText">Account Status</label> <input type="text" name="accountStatus" value="<%- records.accountStatus -%>" class="form-control" id="InputText" placeholder="Account Status"> </div> 
-                                <div class="form-group"> <label for="InputText">profileimage</label> <input type="text" name="profileimage" value="<%- records.profileimage -%>" class="form-control" id="InputText" placeholder="profileimage"> </div> 
-                                <br><button type="submit" style="background-color: green;"  class="btn btn-default">Save Changes</button></div> 
+								
+								<p>Emarates ID</p>
+								<div>
+								<div style="float: left;">
+									<% if(records.emaratesIDFront==null){ %>
+										<p style="color:red;">Not upload yet<%- records.emaratesIDFront -%></p>
+										<img style="height: 200px; width: 300px; border-radius: 30px;" src="<%- records.emaratesIDFront -%>" >
+									 <% } else{ %>  
+										<p style="float: right;"> || </p>
+										<img class="img-fluid img-thumbnail" style="height: 200px; width: 300px; border-radius: 20px; border-width: 2px;" src="<%- records.emaratesIDFront -%>" >
+										<p>Emarates ID (Front)</p>
+										<% } %>
+								</div>
+								<div class="form-group">
+									<% if(records.emaratesIDFront==null){ %>
+										<p style="color:red;">Not upload yet<%- records.emaratesIDFront -%></p>
+										<img style="height: 200px; width: 300px; border-radius: 30px;" src="<%- records.emaratesIDFront -%>" >
+										<p style="float: right;"> || </p>
+									  <% } else{ %>  
+										<img class="img-fluid img-thumbnail" style="height: 200px; width: 300px; border-radius: 20px; border-width: 2px;" src="<%- records.emaratesIDFront -%>" >
+										<p>Emarates ID (Back)</p>
+										<% } %>
+								</div> 
+								</div>
+								
+								<p>Driving Licence</p>
+								<div>
+								<div style="float: left;">
+									<% if(records.agentDrivingLicenceFront==null){ %>
+										<p style="color:red;">Not upload yet</p>
+										<img style="height: 200px; width: 300px; border-radius: 30px;" src="<%- records.agentDrivingLicenceFront -%>" >
+									 <% } else{ %>  
+										<p style="float: right;"> || </p>
+										<img class="img-fluid img-thumbnail" style="height: 200px; width: 300px; border-radius: 20px; border-width: 2px;" src="<%- records.agentDrivingLicenceFront -%>" >
+										<p>Driving Licence Copy (Front)</p>
+										<% } %>
+								</div>
+								<div class="form-group">
+									<% if(records.agentDrivingLicenceBack==null){ %>
+										<p style="color:red;">Not upload yet<%- records.agentDrivingLicenceBack -%></p>
+										<img style="height: 200px; width: 300px; border-radius: 30px;" src="<%- records.agentDrivingLicenceBack -%>" >
+										<p style="float: right;"> || </p>
+									  <% } else{ %>  
+										<img class="img-fluid img-thumbnail" style="height: 200px; width: 300px; border-radius: 20px; border-width: 2px;" src="<%- records.agentDrivingLicenceBack -%>" >
+										<p>Emarates ID (Back)</p>
+										<% } %>
+								</div> 
+								</div>
+
+								<p>Employee Card</p>
+								<div>
+								<div style="float: left;">
+									<% if(records.empCardFront==null){ %>
+										<p style="color:red;">Not upload yet</p>
+										<img style="height: 200px; width: 300px; border-radius: 30px;" src="<%- records.empCardFront -%>" >
+									 <% } else{ %>  
+										<p style="float: right;"> || </p>
+										<img class="img-fluid img-thumbnail" style="height: 200px; width: 300px; border-radius: 20px; border-width: 2px;" src="<%- records.empCardFront -%>" >
+										<p>Employee Card (Front)</p>
+										<% } %>
+								</div>
+								<div class="form-group">
+									<% if(records.empCardBack==null){ %>
+										<p style="color:red;">Not upload yet<%- records.empCardBack -%></p>
+										<img style="height: 200px; width: 300px; border-radius: 30px;" src="<%- records.empCardBack -%>" >
+										<p style="float: right;"> || </p>
+									  <% } else{ %>  
+										<img class="img-fluid img-thumbnail" style="height: 200px; width: 300px; border-radius: 20px; border-width: 2px;" src="<%- records.empCardBack -%>" >
+										<p>Employee Card (Back)</p>
+										<% } %>
+								</div> 
+								</div>
+								<br>
+								<div>
+								<p style="float: left;">VISA Copy | </p>
+								<a style="color: green;" href="<%- records.visaCopy -%>"> | Download</a>
+								</div>
+								
+								<div>
+								<div>
+									<% if(records.visaCopy==null){ %>
+										<p style="color:red;">Not upload yet</p>
+										<img style="height: 200px; width: 300px; border-radius: 30px;" src="<%- records.visaCopy -%>" >
+									 <% } else{ %>  
+										<img class="img-fluid img-thumbnail" style="height: 200px; width: 300px; border-radius: 20px; border-width: 2px;" src="<%- records.visaCopy -%>" >
+										<% } %>
+								</div>
+								</div>
+								<br><button type="submit" style="background-color: green;"  class="btn btn-default">Save Changes</button></div> 
 						</div>
 					</div>	
 		<!--footer-->

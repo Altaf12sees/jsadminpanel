@@ -5,6 +5,9 @@ var conn= mongoose.connection;
 var cPanel = new mongoose.Schema({
     newsletter: String,
     dateandtime: String,
+    homeslider: String,
+    homescreenimg: String,
+    homescreenimgstatus: String,
 });
 
 var userModel= mongoose.model('cPanel', cPanel);

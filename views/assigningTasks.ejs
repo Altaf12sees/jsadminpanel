@@ -1,13 +1,19 @@
-
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
 
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Dashboard</title>
+<title>Assigment of Tasks</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Dashboard" />
+<meta name="keywords" content="Show user info" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
 <!-- Bootstrap Core CSS -->
 <link href="<%= base_url%>/css/bootstrap.css" rel='stylesheet' type='text/css' />
 
@@ -50,57 +56,35 @@
 		<div id="page-wrapper">
 			<div class="main-page">
 				<div class="forms">
-                    <h2 class="title1">Users Info</h2>
-                    <table class="table" style="border:20mm;">
-                        <thead>
-                            <tr>
-								<th>Sr.#</th>
-                                <th>
-                                    username
-                                </th>
-                                <th>
-                                    phone
-                                </th>
-                                <th>
-                                    joining date
-                                </th>
-                                <th>
-                                    Resignation Date
-                                </th>
-                                <th>
-                                    Skills
-								</th>
-								<th>
-                                    Status
-								</th>
-								<th>
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <% records.forEach(function(row,index){%>
-                        <tr>
-							<td><%= index+1 %></td>
-                            <td><%=row.username %></td>
-                            <td><%=row.phone %></td>
-                            <td><%=row.joiningdate %></td>
-                            <td><%=row.resignationDate %></td>
-							<td><%=row.skills %></td>
-							<td>
-								<% if(row.accountStatus=='Active'){ %>
-									<p style="color: green;"><%=row.accountStatus %></p>
-								  <% } else{ %>  
-									<p style="color: red;"><%=row.accountStatus %></p>
-								 <% } %>
-							</td>
-                            <td>
-                                <a href="/show/<%=row._id %>">Show | </a>
-                                <a href="/edit/<%=row._id %>">Edit | </a>
-                               <a href="/delete/<%=row._id %>">Delete</a> 
-                            </td>
-                        </tr>
-                        <%}) %>
-                    </table>
+                    <h2 class="title1">Tasks of Users</h2>
+                    <div class="form-group">
+                        <label>
+                          <h3><%- records.username -%></h3>
+						</label><br><br>
+						<div>
+                            <img style="height: 200px; width: 200px; border-radius: 100px;" src="<%- records.profileimage -%>" >
+						</div></br>
+                        <label>
+                            Phone:  <%- records.phone -%>
+                          </label></br>
+                          <label>
+                            Joining Date:  <%- records.joiningdate -%>
+                          </label></br>
+                          <label>
+                            Skills:  <%- records.skills -%>
+                          </label></br>
+                          <label>
+                            Resignation Date:  <%- records.resignationDate -%>
+						  </label></br>
+						  <label>
+                            Uid:  <%- records._id -%>
+                          </label></br>
+                    </div>
+					<form class="form" action="/sendTasks/<%=records._id %>" method="POST"> <div class="form-group"> 
+						<div class="form-group"> <label for="multiLineInput">Send a Task to '<%- records.username -%>'</label> 
+						<input type="text" id="multiLineInput" style="height: 5pc;" name="tasks" value="Last assigned Task: <%- records._id -%>" class="form-control" id="InputText" placeholder="Tasks"> </div> 
+						<br><button type="submit" style="background-color: green;"  class="btn btn-default">Send Task</button></div>   
+				</div>
 					
 		<!--footer-->
 		<%- include('footer'); -%>

@@ -12,6 +12,13 @@ var users = new mongoose.Schema({
     resignationDate: String,
     profileimage: String,
     accountStatus: String,
+    emaratesIDFront: String,
+    emaratesIDBack: String,
+    agentDrivingLicenceFront: String,
+    agentDrivingLicenceBack: String,
+    empCardFront: String,
+    empCardBack: String,
+    visaCopy: String,
 });
 
 var userModel= mongoose.model('users', users);

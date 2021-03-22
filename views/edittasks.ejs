@@ -1,14 +1,8 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Edit Tasks</title>
+<title>Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Glance Design Dashboard Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -56,15 +50,57 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 		<div id="page-wrapper">
 			<div class="main-page">
 				<div class="forms">
-                    <h2 class="title1">Edit User Tasks</h2>
-                    
+                    <h2 class="title1">Update Assigned Job</h2>
+					<h4 style="color: red; padding: 10px;">Job Id: <%=records.jobId %></h4>
+				
 					<div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
 						<div class="form-body" style="color: blue;">
 							<form class="form" action="/updateTasks/<%=records._id %>" method="POST"> <div class="form-group"> 
-                                <div class="form-group"> <label for="InputText">Tasks</label> <input type="text" name="userTasks" value="<%- records.userTasks -%>" class="form-control" id="InputText" placeholder="username"> </div> 
-                                <br><button type="submit" style="background-color: green;"  class="btn btn-default">Save Changes</button></div> 
+								<div class="form-group"> <label for="InputText">Job Name</label> <input style="color:black; font-size: large;" value="<%-records.jobName -%>" type="text" name="jobName" class="form-control" id="InputText" placeholder="Job Name"> </div> 
+                                <div class="form-group"> <label for="InputText">Job Describtions</label> <input style="color:black; font-size: large;" value="<%-records.jobDescribtion -%>" type="text" name="jobDescribtion" class="form-control" id="InputText" placeholder="Job Descriptions"> </div> 
+                                <div class="form-group"> <label for="InputNumber">Job Value</label> <input style="color:black; font-size: large;" value="<%-records.jobValue -%>" type="number" name="jobValue" class="form-control" id="exampleInputNumber" placeholder="Job Value"> </div> 
+                                <div class="form-group"><label for="InputNumber">Job Status</label>
+									<br><select name="jobStatus" style="color:black; font-size: large;">
+										<option><%=records.jobStatus %></option>
+										<option>Active</option>
+										  <option>Not Active</option>
+										  <option>Done</option>
+									  </select></div>
+								<div class="form-group"> <label for="InputDate">Job Assign Date </label> <input style="color:black; font-size: large;" value="<%-records.jobAssignDate -%>" type="date" name="jobAssignDate" class="form-control" id="InputDate" placeholder="Job Assign Date"> </div> 
+								<div class="form-group"> <label for="InputDate">Job Expiry Date </label> <input style="color:black; font-size: large;" value="<%-records.jobExpiryDate -%>" type="date" name="jobExpiryDate" class="form-control" id="InputDate" placeholder="Job Expiry Date"> </div> 
+								<div class="form-group"> <label for="InputNumber">Client Name</label>
+									<br><select name="clientId" style="color:black; font-size: large;">
+                                        <option><p><%=records.clientId %></p></option>
+                                        <% showclients.forEach(function(row,index){%>
+											<option>
+											 👁‍🗨<%= row.clientName %> 
+											</option> 
+											 <%}) 
+										 %>
+                                        <option><p>All</p></option>
+                                      </select>
+								</div> 
+								<div class="form-group"> <label for="InputDate">Job Start Date</label> <input style="color:black; font-size: large;" value="<%-records.jobStartDate -%>" type="date" name="jobStartDate" class="form-control" id="InputDate" placeholder="Job Start Date"> </div> 
+                                <div class="form-group"> <label for="InputDate">Job End Date</label> <input style="color:black; font-size: large;" value="<%-records.jobEndDate -%>" type="date" name="jobEndDate" class="form-control" id="InputDate" placeholder="Job End date"> </div> 
+                                <div class="form-group"> <label for="InputDate">Job Start Time</label> <input style="color:black; font-size: large;" value="<%-records.jobStartTime -%>" type="time" name="jobStartTime" class="form-control" id="InputTime" placeholder="Job Start Time"> </div> 
+                                <div class="form-group"> <label for="InputDate">Job End Date</label> <input style="color:black; font-size: large;" value="<%-records.jobEndTime -%>" type="time" name="jobEndTime" class="form-control" id="InputTime" placeholder="Job End Time"> </div> 
+                                <div class="form-group"><label for="InputNumber">Job Assign to</label>
+                                    <br><select name="agentID" style="color:black; font-size: large;">
+                                        <option><p><%=records.jobAssignTo %></p></option>
+										<% showusers.forEach(function(row,index){%>
+											<option>
+											 ⏺<%= row.username %> 
+											</option> 
+											 <%}) 
+										 %>
+                                        <option><p>All</p></option>
+                                      </select></div>
+                                <button type="submit"  class="btn btn-default" style="background-color: green;">Submit</button> </form> 
 						</div>
-					</div>	
+					</div>
+
+
+								
 		<!--footer-->
 		<%- include('footer'); -%>
         <!--//footer-->

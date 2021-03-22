@@ -54,16 +54,38 @@
 					<div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
 						<div class="form-body">
 								<div class="form-body">
+									<label style="padding: 5px; font-size: large; border-radius: 5px; border-color: blue; background-color: rgb(216, 191, 158); ">Home Screen</label><br>
 									<form method="POST", action="/">
-										<label>Slider status</label><br>
-										<select class="selectpicker" data-style="btn-info" name="selectpicker">
+										<div style="float: left; padding: 10px;">
+										<label> Slider</label><br>
+										<select style="width: 140px; border-radius: 5px;" class="selectpicker" data-style="btn-info" name="selectpicker">
 											<optgroup label="Select Table">
 												<option value="show">Show</option>
 												<option value="">Hide</option>
 											</optgroup>
 										</select>
-										<input type="submit" value="Save" />
+										</div>
+										
+										<div style="float: left; padding: 12px;">
+										<label>Background Image</label><br>
+										<select style="width: 140px; border-radius: 5px;" class="selectpicker" data-style="btn-info" name="selectpicker">
+											<optgroup style="color: blue;" label="Select Table">
+												<option value="show" >Show</option>
+												<option value="">Hide</option>
+											</optgroup>
+										</select>
+										</div>
+										<div style=" padding: 12px; ">
+											<label>Change Background Image</label><br>
+											<form id="frmUploader" enctype="multipart/form-data" action="api/Upload/" method="post">
+												<input style="float: left;" type="file" name="imgUploader" multiple />
+												<input type="submit" name="submit" id="btnSubmit" value="Upload" /> 
+											</form>
+											<img src="<%-  -%>" />
+											</div>
+										<input style="float: right; background-color: green; color: white; border-radius: 5px;" type="submit" value="Save" />
 									</form>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -83,18 +105,10 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>
-								Sr.#
-							</th>
-							<th>
-								Terms and Conditions
-							</th>
-							<th>
-								Date & Time
-							</th>
-							<th>
-								Action
-							</th>
+							<th>Sr.#</th>
+							<th>Terms and Conditions</th>
+							<th>Date & Time</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<% myposts.forEach(function(row, index){%>
@@ -104,7 +118,7 @@
 						<td>
 							<a href="/show/<%=row._id %>">Show | </a>
 							<a href="/editposts/<%=row._id %>">Edit | </a>
-						   <a href="/deletepost/<%=row._id %>">Delete</a> 
+						    <a href="/deletepost/<%=row._id %>">Delete</a> 
 						</td>
 					</tr>
 					<%}) %>
@@ -116,24 +130,17 @@
 			<div class="form-body">
 				<form method="POST", action="/addnewsletter"> 
 					<div class="form-group"> <label for="InputText">Post a news</label> <input type="text" name="newsletter" class="form-control" id="InputText" placeholder="news letter"> </div> 
-					<button type="submit"  class="btn btn-default">Post</button> </form> 
+					<button type="submit"  class="btn btn-default">Post</button> 
+				</form> 
 			</div>
 		</div>
 		<table class="table">
 			<thead>
 				<tr>
-					<th>
-						Sr.#
-					</th>
-					<th>
-						Newsletter
-					</th>
-					<th>
-						Date & Time
-					</th>
-					<th>
-						Action
-					</th>
+					<th>Sr.#</th>
+					<th>Newsletter</th>
+					<th>Date & Time</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<% myposts.forEach(function(row, index){%>
@@ -144,15 +151,12 @@
 				<td>
 					<a href="/show/<%=row._id %>">Show | </a>
 					<a href="/editposts/<%=row._id %>">Edit | </a>
-				   <a href="/deletepost/<%=row._id %>">Delete</a> 
+				    <a href="/deletepost/<%=row._id %>">Delete</a> 
 				</td>
 			</tr>
 			<%}) %>
 		</table>
-		
-		
-		
-		
+			
 <!--footer-->
 <%- include('footer'); -%>
 <!--//footer-->

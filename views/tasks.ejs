@@ -1,39 +1,39 @@
 
-
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Dashboard</title>
+<title>Jobs</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Dashboard" />
+<meta name="keywords" content="Add New Users" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
 <!-- Bootstrap Core CSS -->
-<link href="<%= base_url%>/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 
 <!-- Custom CSS -->
-<link href="<%= base_url%>/css/style.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
 
 <!-- font-awesome icons CSS -->
-<link href="<%= base_url%>//css/font-awesome.css" rel="stylesheet"> 
+<link href="css/font-awesome.css" rel="stylesheet"> 
 <!-- //font-awesome icons CSS -->
 
  <!-- side nav css file -->
- <link href='<%= base_url%>/css/SidebarNav.min.css' media='all' rel='stylesheet' type='text/css'/>
+ <link href='css/SidebarNav.min.css' media='all' rel='stylesheet' type='text/css'/>
  <!-- side nav css file -->
  
  <!-- js-->
-<script src="<%= base_url%>/js/jquery-1.11.1.min.js"></script>
-<script src="<%= base_url%>/js/modernizr.custom.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/modernizr.custom.js"></script>
 
 <!--webfonts-->
 <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
 <!--//webfonts--> 
 
 <!-- Metis Menu -->
-<script src="<%= base_url%>/js/metisMenu.min.js"></script>
-<script src="<%= base_url%>/js/custom.js"></script>
-<link href="<%= base_url%>/css/custom.css" rel="stylesheet">
+<script src="js/metisMenu.min.js"></script>
+<script src="js/custom.js"></script>
+<link href="css/custom.css" rel="stylesheet">
 <!--//Metis Menu -->
 
 </head> 
@@ -50,41 +50,105 @@
 		<div id="page-wrapper">
 			<div class="main-page">
 				<div class="forms">
-                    <h2 class="title1">Users Info</h2>
-                    <table class="table" style="border:20mm;">
-                        <thead>
-                            <tr>
-								<th>Sr.#</th>
-                                <th>
-                                    User ID
-                                </th>
-                                <th>
-                                    User Tasks
-                                </th>
-                                <th>
-                                    Date/Time
-                                </th>
-                                
-								<th>
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <% tasksShow.forEach(function(row,index){%>
-                        <tr>
-                            <td><%= index+1 %></td>
-                            <td><%= row._id %></td>
-                            <td><%=row.userTasks %></td>
-                            <td><%=row.userId %></td>
-                            <td><%=row.dateandtime %></td>
-                            <td>
-                              <a href="/editTasks/<%=row._id %>">Edit | </a>
-                               <a href="/deletetask/<%=row._id %>">Delete</a> 
-                            </td>
-                        </tr>
-                        <%}) %>
-                    </table>
+                    <h2 class="title1">Assign a Job</h2>
+                    
+					<div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
+						<div class="form-body">
+                            <form method="POST", action="/addNewJob"> 
+                                <div class="form-group"> <label for="InputText">Job Name</label> <input type="text" name="jobName" class="form-control" id="InputText" placeholder="Job Name"> </div> 
+                                <div class="form-group"> <label for="InputText">Job Describtions</label> <input type="text" name="jobDescribtion" class="form-control" id="InputText" placeholder="Job Descriptions"> </div> 
+                                <div class="form-group"> <label for="InputNumber">Job Value</label> <input type="number" name="jobValue" class="form-control" id="exampleInputNumber" placeholder="Job Value"> </div> 
+                                <div class="form-group"><label for="InputNumber">Job Status</label>
+                                <br><select name="jobStatus">
+                                    <option>Select</option>
+                                    <option>Active</option>
+									  <option>Not Active</option>
+									  <option>Done</option>
+                                  </select></div>
+                                <div class="form-group"> <label for="InputDate">Job Assign Date </label> <input type="date" name="jobAssignDate" class="form-control" id="InputDate" placeholder="Job Assign Date"> </div> 
+                                <div class="form-group"> <label for="InputDate">Job Expiry Date </label> <input type="date" name="jobExpiryDate" class="form-control" id="InputDate" placeholder="Job Expiry Date"> </div> 
+								<div class="form-group"> <label for="InputNumber">Client Name</label>
+									<br><select name="clientId">
+                                        <option><p>Select</p></option>
+                                        <% showclients.forEach(function(row,index){%>
+                                           <option>
+                                            👁‍🗨<%= row.clientName %> 
+                                           </option> 
+                                            <%}) 
+                                        %>
+                                        <option><p>All</p></option>
+                                      </select>
+								</div> 
+								
+								<div class="form-group"> <label for="InputDate">Job Start Date</label> <input type="date" name="jobStartDate" class="form-control" id="InputDate" placeholder="Job Start Date"> </div> 
+                                <div class="form-group"> <label for="InputDate">Job End Date</label> <input type="date" name="jobEndDate" class="form-control" id="InputDate" placeholder="Job End date"> </div> 
+                                <div class="form-group"> <label for="InputDate">Job Start Time</label> <input type="time" name="jobStartTime" class="form-control" id="InputTime" placeholder="Job Start Time"> </div> 
+                                <div class="form-group"> <label for="InputDate">Job End Date</label> <input type="time" name="jobEndTime" class="form-control" id="InputTime" placeholder="Job End Time"> </div> 
+                                <div class="form-group"><label for="InputNumber">Job Assign to</label>
+                                    <br><select name="agentID">
+                                        <option><p>Select</p></option>
+                                        <% showusers.forEach(function(row,index){%>
+                                           <option>
+                                            ⏺<%= row.username %> 
+                                           </option> 
+                                            <%}) 
+                                        %>
+                                        <option><p>All</p></option>
+                                      </select></div>
+                                <button type="submit"  class="btn btn-default" style="background-color: green;">Submit</button> </form> 
+						</div>
+					</div>
 					
+					<div style="overflow:scroll;"> 
+						<div class="list-group list-group-horizontal text-nowrap overflow-auto">
+						<table class="table table-hover" style="border:20mm;">
+							<thead>
+							<tr>
+								<th>Sr.#</th>
+								<th>Job Name</th>
+								<th>Job Description</th>
+								<th>Job Value</th>
+								<th>Job Assigned Date</th>
+							
+								<th>Client</th>
+								<th>job Assigned To</th>
+								<th>Job Status</th>
+								<th>Action</th>
+								<th>Todo</th>
+							</tr>
+							</thead>
+							<% tasksShow.forEach(function(row, index){%>
+							
+							<tr>
+								<td><%= index+1 %></td>
+								<td><%= row.jobName %></td>
+								<td><%= row.jobDescribtion %></td>
+								<td><%= row.jobValue %></td>
+								<td><%= row.jobAssignDate %></td>
+								<td><%= row.clientId %></td>
+								<td><%= row.jobAssignTo %></td>
+
+								<td>
+									<% if(row.jobStatus=='Done'){ %>
+										<p style="color: green;"><%=row.jobStatus %></p>
+									  <% } 
+									  else if(row.jobStatus=='Active'){ %>  
+										<p style="color: rgb(21, 17, 223);"><%=row.jobStatus %></p>
+									 <% } 
+									 else{%>
+										<p style="color: rgb(235, 25, 35);"><%=row.jobStatus %></p>
+									 <%}
+									 %>
+								</td>
+								<td>
+									<a href="/editJobPage/<%=row._id %>">Edit | </a>
+								   <a href="/deletetask/<%=row._id %>">Delete</a> 
+								</td>
+							</tr>
+						<%}) %>
+						</table>
+					</div>
+					</div>
 		<!--footer-->
 		<%- include('footer'); -%>
         <!--//footer-->

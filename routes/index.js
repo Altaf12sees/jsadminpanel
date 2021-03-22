@@ -5,12 +5,31 @@ var router = express.Router();
 const {mogoUrl} = require('../keys/urlsPath')
 var userModel= require('../modules/users');
 var tasksModel=require('../modules/tasks');
+var clientsModel=require('../modules/clients');
 var adminModel= require('../modules/admin');
 var termsconditionsModel= require('../modules/termsconditions');
 
+//Quries
 var getusers=userModel.find({});
 var getPosts=adminModel.find({});
 var getTasks=tasksModel.find({});
+var getClients= clientsModel.find({});
+
+var counterID=tasksModel.find().sort({jobId:-1}).limit(1);
+var counterClientID=clientsModel.find().sort({clientId:-1}).limit(1);
+
+var countUsers=userModel.countDocuments({});
+var countTasks=tasksModel.countDocuments({});
+var countClients=clientsModel.countDocuments({});
+
+var countUsersActive=userModel.countDocuments({accountStatus:"Active"});
+var countUsersInactive=userModel.countDocuments({accountStatus:"Inactive"});
+
+var countActiveTasks=tasksModel.countDocuments({jobStatus:"Active"});
+var countTasksDone=tasksModel.countDocuments({jobStatus:"Done"});
+// var usersTasks=tasksModel.find({});
+ 
+var newJoinings=userModel.countDocuments({joiningdate:{$lte: new Date('2021-3-10')}});
 var terms=termsconditionsModel.find({}).limit(1).sort({_id:-1});
 
 router.use( express.static( "public" ) );
@@ -30,6 +49,7 @@ mongoose.connection.on('error',(err)=>{
 
 /* GET home page. */
 
+
 router.get('/', function(req, res, next) {
   let name="wtsol.org"
   res.render('index',{'user':name});
@@ -39,6 +59,19 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next) {
   res.render('login');
 });
+
+router.get('/adminLogin/:username', function(req, res, next){
+   const username=req.params.username;
+   console.log(username)
+  res.redirect('../login')
+  
+  // const password=req.params.password;
+  // if(username=='user' && password=='admin123'){
+  //   res.redirect('../dashboard')
+  // }else{
+  //   res.redirect('../login')
+  // }
+})
 
 router.get('/add', function(req, res, next) {
   res.render('forms');
@@ -52,13 +85,21 @@ router.get('/addnew', function(req, res, next) {
   res.render('addnewuser');
 });
 
+router.get('/addClients', function(req, res, next){
+  res.render('clients');
+});
+
 router.get('/tasks', function(req, res, next) {
-  res.render('tasks');
+  res.render('edittasks');
 });
 
 router.get('/errorpage', function(req, res, next) {
   res.render('errorpage');
 });
+
+router.get('/edittasks', function(req, res, next){
+  res.render('edittasks');
+})
 
 router.post('/addnewuser',function(req,res,next){
   new userModel({
@@ -76,18 +117,82 @@ router.post('/addnewuser',function(req,res,next){
        }
        else
        {
-         res.redirect('../dashboard')
+         res.redirect('../userinfo')
        }
       });
 })
 
- router.get('/dashboard', function(req, res, next) {
+ router.get('/userinfo', function(req, res, next) {
   getusers.exec(function(err, data){
     if(err) throw err;
-  res.render('dashboard',{'dashboard': getusers, records: data, base_url: "http://" + req.headers.host});
+  res.render('userinfo',{'userinfo': getusers, records: data, base_url: "http://" + req.headers.host});
     });
 });
 
+router.get('/userTasksAssigment', function(req, res, next){
+
+
+})
+
+router.get('/mainDashboard', function(req, res, next) {
+  countUsers.exec(function(err, getCountUserResult){
+    if(err){res.send(err)}
+    else{
+  countUsersInactive.exec(function(err, getCountInactiveUserResult){
+    if(err){res.send(err)}
+    else{
+  countUsersActive.exec(function(err, getCountActiveUserResult){
+    if(err){res.send(err)}
+    else{
+  countTasks.exec(function(err, getCountTasks){
+    if(err){res.send(err)} 
+     else{
+  countClients.exec(function(err, getCountClients){
+    if(err){res.send(err)} 
+    else{
+  countTasksDone.exec(function(err, getCountTasksDone){
+    if(err){res.send(err)} 
+    else{
+  countActiveTasks.exec(function(err, getCountActiveTasks){
+      if(err){res.send(err)} 
+    else{
+      res.render('mainDashboard',{'mainDashboard': 
+      countUsers, countuser: getCountUserResult, 
+      countUsersActive, countactiveusers: getCountActiveUserResult,
+      countUsersInactive, countinactiveusers: getCountInactiveUserResult,
+      countTasks, counttasks: getCountTasks,
+      countActiveTasks, countactivetasks: getCountActiveTasks,
+      countTasksDone, counttasksdone: getCountTasksDone,
+      countClients, countclients: getCountClients,
+      base_url: "http://" + req.headers.host});
+                          }
+                        });
+                       }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+         }
+      });
+    }
+  });
+});
+
+router.get('/countDocuments',function(req,res){
+    countUsers.exec(function(err, result){
+        if(err){
+            res.send(err)
+        }
+        else{
+           // res.json(result)
+           res.render('mainDashboard',{'mainDashboard': countUsers, countuser: result, base_url: "http://" + req.headers.host});
+ 
+        }
+   });
+})
 //show user
 router.get('/show/:id', function(req,res,next){
   userModel.findById(req.params.id, function(err, data){
@@ -103,22 +208,52 @@ router.get('/show/:id', function(req,res,next){
 router.get('/showTasks', function(req,res,next){
   getTasks.exec(function(err, data){
     if(err) throw err;
-    res.render('tasks',{'tasks':getTasks, tasksShow: data, base_url: "http://" + req.headers.host});
+    else{
+  getusers.exec(function(err, getusers){
+    if(err) throw err;
+    else{
+    getClients.exec(function(err, getclients){
+      if(err) throw err;
+    else{
+    res.render('tasks',{'tasks':
+    getTasks, tasksShow: data,
+    getusers, showusers: getusers,
+    getClients, showclients: getclients,
+    base_url: "http://" + req.headers.host});
+    }
+            });
+          }
+        });
+      }
     });
   });
 
-//show task
-router.get('/showtasks/:id', function(req,res,next){
+//edit tasks
+router.get('/editJobPage/:id', function(req, res, next) {
   tasksModel.findById(req.params.id, function(err, data){
     if(err){
-      console.log(err)
+      res.render('Error! Try again.')
     }else{
-      res.render('show',{'show':tasksModel, records: data, base_url: "http://" + req.headers.host});
+  getusers.exec(function(err, getusers){
+    if(err) throw err;
+    else{
+  getClients.exec(function(err, getclients){
+      if(err) throw err;
+    else{
+      res.render('edittasks',{'edittasks':
+      tasksModel, records: data,
+      getusers, showusers: getusers,
+      getClients, showclients: getclients,
+      base_url: "http://" + req.headers.host});
+    }
+    });
     }
   });
+    }
+  })
 });
 
-//delete tasks
+//delete tasks 🟢
 router.get('/deletetask/:id', function(req,res,next){
   tasksModel.findByIdAndRemove(req.params.id, function(err, data){
     if(err){
@@ -130,30 +265,81 @@ router.get('/deletetask/:id', function(req,res,next){
 });
 
 //call edit task page
-router.get('/editTasks/:id', function(req, res, next) {
+router.get('/updatejob/:id', function(req, res, next) {
   tasksModel.findById(req.params.id, function(err, data){
     if(err){
       res.render('Error! Try again.')
     }else{
-      res.render('editTasks',{'editTasks':tasksModel, records: data, base_url: "http://" + req.headers.host});
+      res.render('edittasks',{'edittasks':tasksModel, records: data, base_url: "http://" + req.headers.host});
     }
   })
 });
 
 
+//add new task
+router.post('/addNewJob', function(req, res, next) {
+  counterID.exec(function(err, data){
+    if(err) throw err;
+
+  var today=new Date();
+  new tasksModel({
+      jobName:req.body.userTasks,
+      userJobNo:req.body.userJobNo,
+      jobName:req.body.jobName,
+      jobDescribtion:req.body.jobDescribtion,
+      jobValue:req.body.jobValue,
+      jobAssignDate:req.body.jobAssignDate,
+      jobExpiryDate:req.body.jobExpiryDate,
+      jobStatus:req.body.jobStatus,
+      clientId:req.body.clientId,
+      jobStartDate:req.body.jobStartDate,
+      jobEndDate:req.body.jobEndDate,
+      jobStartTime:req.body.jobStartTime,
+      jobEndTime:req.body.jobEndTime,
+      agentID:req.body.agentID,
+      jobId:data[0].jobId+1,
+      jobAssignTo:req.body.agentID,
+  }).save(function(err){
+    if(err){
+        res.redirect('../errorpage');
+    }else{
+      res.redirect('../showTasks');
+    }
+  });
+  })
+});
+
 //update tasks
 router.post('/updateTasks/:id', function(req, res, next) {
+  counterID.exec(function(err, data){
+    if(err) throw err;
   var today=new Date();
   const datauser={
-      userTasks:req.body.userTasks,
-      dateandtime:today.getDate()+" "+today.toLocaleString('default',{month: 'short'})+" "+today.getFullYear()+"/ "+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+      jobName:req.body.userTasks,
+      jobId:counterID,
+      userJobNo:req.body.userJobNo,
+      jobName:req.body.jobName,
+      jobDescribtion:req.body.jobDescribtion,
+      jobValue:req.body.jobValue,
+      jobAssignDate:req.body.jobAssignDate,
+      jobExpiryDate:req.body.jobExpiryDate,
+      jobStatus:req.body.jobStatus,
+      clientId:req.body.clientId,
+      jobStartDate:req.body.jobStartDate,
+      jobEndDate:req.body.jobEndDate,
+      jobStartTime:req.body.jobStartTime,
+      jobEndTime:req.body.jobEndTime,
+      agentID:req.body.agentID,
+      jobId:data.jobId,
   }
+
   tasksModel.findByIdAndUpdate(req.params.id, datauser, function(err){
     if(err){
         res.redirect('../editTasks'+req.params.id);
     }else{
       res.redirect('../showTasks');
     }
+  });
   })
 });
 
@@ -163,7 +349,7 @@ router.get('/delete/:id', function(req,res,next){
     if(err){
       res.redirect('../errorpage')
     }else{
-      res.redirect('../dashboard')
+      res.redirect('../userinfo')
     }
   });
 });
@@ -194,7 +380,7 @@ router.post('/update/:id', function(req, res, next) {
     if(err){
         res.redirect('../edit'+req.params.id);
     }else{
-      res.redirect('../dashboard');
+      res.redirect('../userinfo');
     }
   })
 });
@@ -309,7 +495,6 @@ router.get('/getTerms', function(req,res, next){
 });
 })
 
-
 router.post('/sendTasks/:id',function(req,res,next){
   var id=req.params.id;
   var today=new Date();
@@ -329,6 +514,28 @@ router.post('/sendTasks/:id',function(req,res,next){
        }
       });
 })
+
+// Add Clients 
+router.post('/addClients', function(req, res, next) {
+  counterClientID.exec(function(err, data){
+    if(err) throw err;
+
+  var today=new Date();
+  new clientsModel({
+      clientId:data[0].clientId+1,
+      clientName:req.body.clientName,
+      clientPhone: req.body.clientPhone,
+      clientPhoto:req.body.clientPhoto,
+      clientAddress:req.body.clientAddress,
+  }).save(function(err){
+    if(err){
+        res.redirect('../errorpage');
+    }else{
+      res.redirect('../showTasks');
+    }
+   });
+  })
+});
 
 
 
